@@ -4,6 +4,8 @@
 var formEl = document.querySelector("#task-form");
 // Line below stores the ul DOM object to a variable
 var tasksToDoEl = document.querySelector("#tasks-to-do");
+// Line below create a task counter. this number will be given to each task to uniquely identify them
+var taskIdCounter = 0;
 
 // // Line below created event listen click to the run a function
 // buttonEl.addEventListener("click", function() {
@@ -74,6 +76,9 @@ var createTaskEl = function(taskDataObj) {
     var listItemEl = document.createElement("li");
     listItemEl.className = "task-item";
 
+    // add task id as a custom attribute
+    listItemEl.setAttribute("data-task-id", taskIdCounter);
+
     // create div to hold task info and add to list item
     var taskInfoEl = document.createElement("div");
     taskInfoEl.className = "task-info";
@@ -83,11 +88,61 @@ var createTaskEl = function(taskDataObj) {
 
     listItemEl.appendChild(taskInfoEl);
 
+    // takes data and objects from createTaskActions function based on the task id number and appends to the task being displayed on the page
+    var taskActionsEl = createTaskActions(taskIdCounter);
+    listItemEl.appendChild(taskActionsEl);
+
     // add entire list item to list
     tasksToDoEl.appendChild(listItemEl);
+
+    // increase task counter for next unique id
+    taskIdCounter++;
 }
 
+// function to create buttons and there actions on the tasks
+var createTaskActions = function(taskId) {
+    // creates the containing div for the buttons
+    var actionContainerEl = document.createElement("div");
+    actionContainerEl.className = "task-actions";
 
+    // create edit button
+    var editButtonEl = document.createElement("button");
+    editButtonEl.textContent = "Edit";
+    editButtonEl.className = "btn edit-btn";
+    editButtonEl.setAttribute("data-task-id", taskId);
+    // appends edit button to container element
+    actionContainerEl.appendChild(editButtonEl);
+
+    // create delete button
+    var deleteButtonEl = document.createElement("button");
+    deleteButtonEl.textContent = "Delete";
+    deleteButtonEl.className = "btn delete-btn";
+    deleteButtonEl.setAttribute("data-task-id", taskId);
+    // appends delete button to container element
+    actionContainerEl.appendChild(deleteButtonEl);
+
+    // create the select or drop down menu
+    var statusSelectEl = document.createElement("select");
+    statusSelectEl.className = "select-status";
+    statusSelectEl.setAttribute("name", "status-change");
+    statusSelectEl.setAttribute("data-task-id", taskId);
+    // creates array for choices in the drop down menu
+    var statusChoices = ["To Do", "In Progress", "Completed"];
+    // for loop to go through the drop down menu
+    for (var i = 0; i < statusChoices.length; i++) {
+        // create option element
+        var statusOptionEl = document.createElement("option");
+        statusOptionEl.textContent = statusChoices[i];
+        statusOptionEl.setAttribute("value", statusChoices[i]);
+      
+        // append to select
+        statusSelectEl.appendChild(statusOptionEl);
+      }
+    // appends drop down menu to container element
+    actionContainerEl.appendChild(statusSelectEl);
+
+    return actionContainerEl;
+};
 
 
 
