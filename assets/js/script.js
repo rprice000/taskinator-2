@@ -101,8 +101,7 @@ var taskFormHandler = function(event) {
 
 // Created new name function to separate concerns in each function
 var createTaskEl = function(taskDataObj) {
-    console.log(taskDataObj);
-    console.log(taskDataObj.status);
+  
     // create list item
     var listItemEl = document.createElement("li");
     listItemEl.className = "task-item";
@@ -133,6 +132,8 @@ var createTaskEl = function(taskDataObj) {
 
     // increase task counter for next unique id
     taskIdCounter++;
+    // runs the save task function to save task to local storage
+    saveTasks()
 }
 
 // function to create buttons and there actions on the tasks
@@ -193,7 +194,7 @@ formEl.addEventListener("submit", taskFormHandler);
 
 // Function is a click handler it will listen to what is clicked on
 var taskButtonHandler = function(event) {
-    console.log(event.target);
+
 
     // get target element from event
     var targetEl = event.target;
@@ -237,6 +238,9 @@ var deleteTask = function(taskId) {
 
     // reassign tasks array to be the same as updatedTaskArr
     tasks = updatedTaskArr;
+
+    // runs the save task function to save task to local storage
+    saveTasks()
   };
 
 // function takes data from the click handler function and allows user to edit a task
@@ -278,6 +282,9 @@ var completeEditTask = function(taskName, taskType, taskId) {
     // Two lines below resets the form back to normal
     formEl.removeAttribute("data-task-id");
     document.querySelector("#save-task").textContent = "Add Task";
+
+    // runs the save task function to save task to local storage
+    saveTasks()
 };
 
 // function called when task status changes
@@ -308,7 +315,19 @@ var taskStatusChangeHandler = function(event) {
         tasks[i].status = statusValue;
         }
     }
+
+    // runs the save task function to save task to local storage
+    saveTasks()
 };
+
+// function to save tasks to localStorage
+var saveTasks = function() {
+    // Line below saves tasks to local storage as objects
+    // localStorage.setItem("tasks", tasks);
+    // Local storage can only hold strings. Line below replaces line above to turn tasks saved in to strings
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+}
+
 
 pageContentEl.addEventListener("click", taskButtonHandler);
 
