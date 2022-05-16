@@ -25,6 +25,7 @@ By completing this module, you'll learn how to:
 - Write event-driven functions
 - Research Web API documentation to implement new and unfamiliar interfaces
 
+![Starting Image](assets/images/mainApp-image.JPG)
 
 ## Installation
 There are no technologies that need to be installed for this application.
